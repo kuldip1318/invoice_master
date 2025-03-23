@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jehangir Hospital - Invoice Processing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Base Variables */
+    :root {
+      --primary: #0059b3;
+      --primary-light: #e6f2ff;
+      --primary-dark: #003d7a;
+      --secondary: #28a745;
+      --danger: #dc3545;
+      --background: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-color: #343a40;
+      --gray: #6c757d;
+      --white: #ffffff;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 8px;
+      --transition: all 0.3s ease;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-family);
+      background-color: var(--background);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      padding: 20px 0;
+      border-radius: var(--border-radius);
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 12px;
+      font-size: 36px;
+    }
+    
+    /* Cards and Forms */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: var(--transition);
+      margin-bottom: 30px;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+      background-color: var(--primary-light);
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0, 89, 179, 0.25);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      line-height: 1.5;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-secondary {
+      background-color: var(--gray);
+      color: var(--white);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+    
+    .btn-success {
+      background-color: var(--secondary);
+      color: var(--white);
+    }
+    
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+      color: var(--white);
+    }
+    
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+    
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+    
+    .btn-icon {
+      font-size: 18px;
+    }
+    
+    /* File Upload Area */
+    .file-upload {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      border: 2px dashed #ced4da;
+      border-radius: var(--border-radius);
+      background-color: #f8f9fa;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: var(--transition);
+    }
+    
+    .file-upload:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary);
+    }
+    
+    .file-upload input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .file-upload-icon {
+      font-size: 48px;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .file-upload-text {
+      font-size: 18px;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    
+    .file-upload-info {
+      font-size: 14px;
+      color: var(--gray);
+    }
+    
+    .selected-file {
+      display: none;
+      align-items: center;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: var(--primary-light);
+      border-radius: var(--border-radius);
+    }
+    
+    .selected-file-icon {
+      font-size: 20px;
+      margin-right: 10px;
+      color: var(--primary);
+    }
+    
+    .selected-file-info {
+      flex: 1;
+    }
+    
+    .selected-file-name {
+      font-weight: 500;
+    }
+    
+    .selected-file-size {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    .selected-file-remove {
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+    /* Loader */
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 89, 179, 0.2);
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Result Container */
+    .result-container {
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .result-header {
+      padding: 15px 20px;
+      background-color: var(--primary-light);
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .result-title {
+      font-size: 18px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .result-content {
+      padding: 20px;
+      background-color: var(--card-bg);
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      margin-top: 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid #e9ecef;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+    }
+    
+    table th, table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+    
+    table tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    
+    table tr:hover {
+      background-color: #f1f4f7;
+    }
+    
+    table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .json-container {
+      display: none;
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid #e9ecef;
+      margin-top: 15px;
+      white-space: pre-wrap;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-content {
+      background-color: var(--white);
+      margin: 10% auto;
+      padding: 0;
+      width: 90%;
+      max-width: 500px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      animation: modalFadeIn 0.3s;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: var(--primary-light);
+      border-bottom: 1px solid #e9ecef;
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .modal-close {
+      font-size: 24px;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .modal-close:hover {
+      color: var(--danger);
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    .modal-footer {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .editable-container {
+      border: 1px dashed var(--primary);
+      padding: 10px;
+      border-radius: var(--border-radius);
+      background-color: #fafafa;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--white);
+      padding: 15px 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+      transition: var(--transition);
+    }
+    
+    .notification i {
+      font-size: 20px;
+    }
+    
+    .notification-info {
+      color: var(--gray);
+    }
+    
+    .notification-success {
+      color: var(--secondary);
+    }
+    
+    .notification-error {
+      color: var(--danger);
+    }
+    
+    .notification-close {
+      cursor: pointer;
+    }
+    
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    @media (max-width: 768px) {
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .result-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .card-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-hospital"></i>
+          Jehangir Hospital Invoice Processing
+        </div>
+      </div>
+    </header>
+    
+    <div class="main-content">
+      <div class="card">
+        <div class="card-header">Upload Invoice</div>
+        <div class="card-body">
+          <form id="uploadForm">
+            <div class="form-group">
+              <label for="invoiceType" class="form-label">Select Invoice Type</label>
+              <select id="invoiceType" name="invoice_type" class="form-control">
+                <option value="inventory">Inventory Invoice</option>
+                <option value="non_inventory" selected>Without Inventory Invoice</option>
+              </select>
+            </div>
+            <div class="file-upload" id="dropZone">
+              <input type="file" id="fileInput" name="file" accept=".pdf,.jpg,.jpeg,.png,.zip" required />
+              <div class="file-upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+              </div>
+              <div class="file-upload-text">Drag & Drop files here or click to browse</div>
+              <div class="file-upload-info">Accept PDF, JPG, PNG or ZIP files</div>
+            </div>
+            <div class="selected-file" id="selectedFile">
+              <div class="selected-file-icon">
+                <i id="fileTypeIcon" class="fas fa-file-pdf"></i>
+              </div>
+              <div class="selected-file-info">
+                <div class="selected-file-name" id="fileName">example.pdf</div>
+                <div class="selected-file-size" id="fileSize">0 KB</div>
+              </div>
+              <div class="selected-file-remove" id="removeFile">
+                <i class="fas fa-times"></i>
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-upload btn-icon"></i>Process Invoice
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div id="loading" class="loader" style="display: none;">
+        <div class="spinner"></div>
+        <div style="margin-left: 15px;">Processing your invoice...</div>
+      </div>
+      
+      <div id="results"></div>
+    </div>
+  </div>
+  
+  <!-- GST Verification Modal -->
+  <div id="gstModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fas fa-check-circle" style="margin-right: 10px; color: var(--secondary);"></i>
+          GST Verification
+        </h3>
+        <span class="modal-close" onclick="closeGSTModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="gstInput" class="form-label">GST Number</label>
+          <input type="text" id="gstInput" placeholder="Enter GST Number" class="form-control" />
+        </div>
+        <div id="gstVerificationResults"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="gstVerifyBtn" class="btn btn-primary">
+          <i class="fas fa-search btn-icon"></i>Verify GST
+        </button>
+        <button onclick="closeGSTModal()" class="btn btn-secondary">
+          <i class="fas fa-times btn-icon"></i>Close
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Backend URL
+    const backendURL = 'http://localhost:5001/process';
+    
+    // File Input Enhancements
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const selectedFile = document.getElementById('selectedFile');
+    const fileTypeIcon = document.getElementById('fileTypeIcon');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFile = document.getElementById('removeFile');
+    
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, unhighlight, false);
+    });
+    
+    // Handle dropped files
+    dropZone.addEventListener('drop', handleDrop, false);
+    
+    // Handle selected files from file input
+    fileInput.addEventListener('change', handleFiles);
+    
+    removeFile.addEventListener('click', function(e) {
+      e.stopPropagation();
+      clearFileInput();
+    });
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    function highlight() {
+      dropZone.classList.add('highlight');
+    }
+    
+    function unhighlight() {
+      dropZone.classList.remove('highlight');
+    }
+    
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles({ target: { files: files } });
+    }
+    
+    function handleFiles(e) {
+      const files = e.target.files;
+      if (files.length) {
+        updateFileInfo(files[0]);
+      }
+    }
+    
+    function updateFileInfo(file) {
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      let iconClass = 'fas fa-file';
+      if (fileExtension === 'pdf') {
+        iconClass = 'fas fa-file-pdf';
+      } else if (['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+        iconClass = 'fas fa-file-image';
+      } else if (fileExtension === 'zip') {
+        iconClass = 'fas fa-file-archive';
+      }
+      fileTypeIcon.className = iconClass;
+      fileName.textContent = file.name;
+      fileSize.textContent = formatFileSize(file.size);
+      selectedFile.style.display = 'flex';
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function clearFileInput() {
+      fileInput.value = '';
+      selectedFile.style.display = 'none';
+    }
+    
+    // Remove markdown code fences from JSON strings.
+    function cleanJsonString(str) {
+      str = str.trim();
+      if (str.startsWith("```")) {
+        let lines = str.split("\n");
+        if (lines[0].startsWith("```")) { lines.shift(); }
+        if (lines[lines.length - 1].trim() === "```") { lines.pop(); }
+        return lines.join("\n").trim();
+      }
+      return str;
+    }
+    
+    // Generate an HTML table from a JSON string.
+    function generateTableFromJson(jsonStr) {
+      jsonStr = cleanJsonString(jsonStr);
+      try {
+        let data = JSON.parse(jsonStr);
+        return generateTableFromValue(data);
+      } catch (err) {
+        console.error("Error parsing JSON:", err);
+        return "<p>Error parsing JSON.</p>";
+      }
+    }
+    
+    // Recursive: if value is array or object, generate table; otherwise, return the value.
+    function generateTableFromValue(value) {
+      if (Array.isArray(value)) {
+        return generateTableFromArray(value);
+      } else if (typeof value === 'object' && value !== null) {
+        return generateTableFromObject(value);
+      } else {
+        return value;
+      }
+    }
+    
+    // Generate table from an object.
+    function generateTableFromObject(obj) {
+      let table = "<table><tbody>";
+      for (let key in obj) {
+        table += `<tr><th>${key}</th><td>${generateTableFromValue(obj[key])}</td></tr>`;
+      }
+      table += "</tbody></table>";
+      return table;
+    }
+    
+    // Generate table from an array.
+    function generateTableFromArray(arr) {
+      if (arr.length === 0)
+        return "<div class='empty-state'><div class='empty-state-icon'><i class='fas fa-database'></i></div><p>No data found</p></div>";
+      if (arr.every(item => typeof item !== 'object' || item === null)) {
+        let table = "<table><tbody>";
+        arr.forEach(item => {
+          table += `<tr><td>${item}</td></tr>`;
+        });
+        table += "</tbody></table>";
+        return table;
+      }
+      let keys = new Set();
+      arr.forEach(item => {
+        if (typeof item === 'object' && item !== null) {
+          Object.keys(item).forEach(key => keys.add(key));
+        }
+      });
+      keys = Array.from(keys);
+      let table = "<table><thead><tr>";
+      keys.forEach(key => {
+        table += `<th>${key}</th>`;
+      });
+      table += "</tr></thead><tbody>";
+      arr.forEach(item => {
+        table += "<tr>";
+        keys.forEach(key => {
+          let cellValue = item[key];
+          table += `<td>${cellValue !== undefined ? generateTableFromValue(cellValue) : ""}</td>`;
+        });
+        table += "</tr>";
+      });
+      table += "</tbody></table>";
+      return table;
+    }
+    
+    // CSV download: add section header rows between tables for clarity.
+    function downloadCSV(container, filename) {
+      const tables = container.querySelectorAll('table');
+      if (tables.length === 0) {
+        showNotification("No table found to convert to CSV.", "error");
+        return;
+      }
+      let csvRows = [];
+      tables.forEach((table, tableIndex) => {
+        // Add a header row to mark section separation.
+        csvRows.push(`"--- Section ${tableIndex + 1} ---"`);
+        const rows = table.querySelectorAll('tr');
+        rows.forEach(row => {
+          const cells = row.querySelectorAll('th, td');
+          let rowData = [];
+          cells.forEach(cell => {
+            let cellText = cell.textContent.trim();
+            cellText = cellText.replace(/"/g, '""');
+            rowData.push(`"${cellText}"`);
+          });
+          if (rowData.length > 0) {
+            csvRows.push(rowData.join(','));
+          }
+        });
+        csvRows.push(""); // Blank line between sections.
+      });
+      let csvContent = csvRows.join('\r\n');
+      if (!csvContent) {
+        showNotification("No data found to export.", "error");
+        return;
+      }
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename.replace(/\.[^/.]+$/, "") + ".csv");
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showNotification("CSV downloaded successfully!", "success");
+    }
+    
+    // Handle form submission.
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (fileInput.files.length === 0) {
+        showNotification("Please select a file.", "error");
+        return;
+      }
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      const invoiceType = document.getElementById('invoiceType').value;
+      formData.append('invoice_type', invoiceType);
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('results').innerHTML = '';
+      try {
+        const response = await fetch(backendURL, { method: 'POST', body: formData });
+        const data = await response.json();
+        document.getElementById('loading').style.display = 'none';
+        if (!response.ok) {
+          showNotification("Error: " + data.error, "error");
+          return;
+        }
+        displayResults(data);
+        showNotification("Invoice processed successfully!", "success");
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        showNotification("An error occurred while uploading the file.", "error");
+        document.getElementById('loading').style.display = 'none';
+      }
+    });
+    
+    // Notification function.
+    function showNotification(message, type = "info") {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      let icon = '';
+      switch (type) {
+        case 'success':
+          icon = '<i class="fas fa-check-circle"></i>';
+          break;
+        case 'error':
+          icon = '<i class="fas fa-exclamation-circle"></i>';
+          break;
+        default:
+          icon = '<i class="fas fa-info-circle"></i>';
+      }
+      notification.innerHTML = `
+        <div class="notification-icon">${icon}</div>
+        <div class="notification-message">${message}</div>
+        <div class="notification-close"><i class="fas fa-times"></i></div>
+      `;
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => { notification.remove(); }, 300);
+      }, 4000);
+      notification.querySelector('.notification-close').addEventListener('click', () => { notification.remove(); });
+    }
+    
+    // Display results by generating table(s) from the parsed JSON.
+    function displayResults(data) {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+      if (data.type === 'single') {
+        const container = createResultContainer("Uploaded Invoice", data.parsed_json || "");
+        resultsDiv.appendChild(container);
+      } else if (data.type === 'zip' && Array.isArray(data.results)) {
+        data.results.forEach(item => {
+          const container = createResultContainer(item.filename, item.parsed_json || "");
+          resultsDiv.appendChild(container);
+        });
+      } else {
+        resultsDiv.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-file-excel"></i></div>
+            <p>No valid results to display.</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Create a result container for each processed invoice.
+    function createResultContainer(title, parsedJSON) {
+      const container = document.createElement('div');
+      container.className = 'result-container card';
+      const header = document.createElement('div');
+      header.className = 'result-header';
+      const titleElem = document.createElement('h3');
+      titleElem.className = 'result-title';
+      titleElem.innerHTML = `<i class="fas fa-file-invoice"></i> ${title}`;
+      header.appendChild(titleElem);
+      const buttonGroup = document.createElement('div');
+      buttonGroup.className = 'btn-group';
+      
+      const editButton = document.createElement('button');
+      editButton.className = 'btn btn-primary btn-sm';
+      editButton.innerHTML = '<i class="fas fa-edit btn-icon"></i>Edit';
+      buttonGroup.appendChild(editButton);
+      
+      const downloadButton = document.createElement('button');
+      downloadButton.className = 'btn btn-success btn-sm';
+      downloadButton.innerHTML = '<i class="fas fa-download btn-icon"></i>Download CSV';
+      buttonGroup.appendChild(downloadButton);
+      
+      const gstButton = document.createElement('button');
+      gstButton.className = 'btn btn-secondary btn-sm';
+      gstButton.innerHTML = '<i class="fas fa-check-circle btn-icon"></i>Verify GST';
+      buttonGroup.appendChild(gstButton);
+      
+      const viewJsonButton = document.createElement('button');
+      viewJsonButton.className = 'btn btn-secondary btn-sm';
+      viewJsonButton.innerHTML = '<i class="fas fa-code btn-icon"></i>View JSON';
+      buttonGroup.appendChild(viewJsonButton);
+      
+      header.appendChild(buttonGroup);
+      container.appendChild(header);
+      
+      const content = document.createElement('div');
+      content.className = 'result-content';
+      
+      const tableContainer = document.createElement('div');
+      tableContainer.className = 'table-container';
+      tableContainer.innerHTML = parsedJSON
+        ? generateTableFromJson(parsedJSON)
+        : `<div class="empty-state">
+             <div class="empty-state-icon"><i class="fas fa-exclamation-circle"></i></div>
+             <p>No JSON data returned.</p>
+           </div>`;
+      content.appendChild(tableContainer);
+      
+      const jsonContainer = document.createElement('div');
+      jsonContainer.className = 'json-container';
+      jsonContainer.textContent = parsedJSON || "No JSON returned.";
+      content.appendChild(jsonContainer);
+      
+      container.appendChild(content);
+      
+      let originalContent = tableContainer.innerHTML;
+      let saveButton, cancelButton;
+      
+      editButton.addEventListener('click', function() {
+        originalContent = tableContainer.innerHTML;
+        tableContainer.setAttribute('contenteditable', 'true');
+        tableContainer.classList.add('editable-container');
+        editButton.style.display = 'none';
+        
+        saveButton = document.createElement('button');
+        saveButton.className = 'btn btn-success btn-sm';
+        saveButton.innerHTML = '<i class="fas fa-save btn-icon"></i>Save';
+        saveButton.addEventListener('click', function() {
+          tableContainer.setAttribute('contenteditable', 'false');
+          tableContainer.classList.remove('editable-container');
+          originalContent = tableContainer.innerHTML;
+          editButton.style.display = 'inline-block';
+          saveButton.remove();
+          cancelButton.remove();
+          showNotification("Changes saved successfully!", "success");
+        });
+        
+        cancelButton = document.createElement('button');
+        cancelButton.className = 'btn btn-danger btn-sm';
+        cancelButton.innerHTML = '<i class="fas fa-times btn-icon"></i>Cancel';
+        cancelButton.addEventListener('click', function() {
+          tableContainer.innerHTML = originalContent;
+          tableContainer.setAttribute('contenteditable', 'false');
+          tableContainer.classList.remove('editable-container');
+          editButton.style.display = 'inline-block';
+          saveButton.remove();
+          cancelButton.remove();
+        });
+        
+        buttonGroup.appendChild(saveButton);
+        buttonGroup.appendChild(cancelButton);
+      });
+      
+      downloadButton.addEventListener('click', function() {
+        downloadCSV(tableContainer, title);
+      });
+      
+      gstButton.addEventListener('click', function() {
+        document.getElementById('gstModal').style.display = 'block';
+      });
+      
+      viewJsonButton.addEventListener('click', function() {
+        jsonContainer.style.display = (jsonContainer.style.display === 'block') ? 'none' : 'block';
+      });
+      
+      return container;
+    }
+    
+    // GST Verification functions.
+    async function verifyGST(gstin) {
+      const modal = document.getElementById('gstModal');
+      const resultsDiv = document.getElementById('gstVerificationResults');
+      resultsDiv.innerHTML = '<div class="spinner"></div> Verifying GST number...';
+      try {
+        const response = await fetch('https://gst-insights-api.p.rapidapi.com/getGSTDetailsUsingGST/' + gstin, {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '256e03de0amsh30e1a141ba7060dp1d38d7jsn98fddb3d66d2',
+            'X-RapidAPI-Host': 'gst-insights-api.p.rapidapi.com'
+          }
+        });
+        const data = await response.json();
+        if (data.success) {
+          const gstDetails = data.data;
+          resultsDiv.innerHTML = `
+            <div class="gst-details">
+              <div class="gst-detail-item">
+                <strong>Legal Name:</strong> ${gstDetails.legalName}
+              </div>
+              <div class="gst-detail-item">
+                <strong>Trade Name:</strong> ${gstDetails.tradeName}
+              </div>
+              <div class="gst-detail-item">
+                <strong>Status:</strong> <span style="color: ${gstDetails.status.toLowerCase() === 'active' ? '#28a745' : '#dc3545'};">${gstDetails.status}</span>
+              </div>
+              <div class="gst-detail-item">
+                <strong>Registration Date:</strong> ${gstDetails.registrationDate}
+              </div>
+              <div class="gst-detail-item">
+                <strong>Constitution:</strong> ${gstDetails.constitutionOfBusiness}
+              </div>
+              <div class="gst-detail-item">
+                <strong>Principal Address:</strong><br>
+                ${formatGSTAddress(gstDetails.principalAddress)}
+              </div>
+            </div>
+          `;
+        } else {
+          resultsDiv.innerHTML = `
+            <div class="gst-details">
+              <div class="gst-detail-item" style="color: #dc3545;">
+                Unable to verify GST number. Please check the number and try again.
+              </div>
+            </div>
+          `;
+        }
+      } catch (error) {
+        resultsDiv.innerHTML = `
+          <div class="gst-details">
+            <div class="gst-detail-item" style="color: #dc3545;">
+              Error verifying GST number: ${error.message}
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    function formatGSTAddress(address) {
+      if (!address || !address.address) return 'Address not available';
+      const addr = address.address;
+      const parts = [];
+      if (addr.buildingNumber) parts.push(addr.buildingNumber);
+      if (addr.street) parts.push(addr.street);
+      if (addr.location) parts.push(addr.location);
+      if (addr.district) parts.push(addr.district);
+      if (addr.streetcd) parts.push(addr.streetcd);
+      if (addr.pincode) parts.push(addr.pincode);
+      return parts.join(', ');
+    }
+    
+    function closeGSTModal() {
+      document.getElementById('gstModal').style.display = 'none';
+    }
+    
+    document.getElementById('gstVerifyBtn').addEventListener('click', function() {
+      const gstin = document.getElementById('gstInput').value.trim();
+      if (gstin === "") {
+        showNotification("Please enter a GST number.", "error");
+        return;
+      }
+      verifyGST(gstin);
+    });
+    
+    window.onclick = function(event) {
+      const modal = document.getElementById('gstModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+    
+    function showError(message) {
+      alert(message);
+    }
+  </script>
+</body>
+</html>

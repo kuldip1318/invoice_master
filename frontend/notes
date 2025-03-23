@@ -1,0 +1,5 @@
+pip install -r requirements.txt
+
+*backend code running command *
+python app.py
+
